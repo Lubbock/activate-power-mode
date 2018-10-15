@@ -1,5 +1,6 @@
 package com.jiyuanime.shake;
 
+import com.jiyuanime.config.Config;
 import kotlin.Pair;
 
 import javax.swing.*;
@@ -67,7 +68,7 @@ public class ShakeManager {
                     public void run() {
                         try {
                             SwingUtilities.invokeLater(new ChangingLocationOfComponent(mNowEditorJComponent, x, y));
-                            Thread.sleep(75);
+                            Thread.sleep(Config.getInstance().state.SHAKE_TIMER);
                             SwingUtilities.invokeLater(new ChangingLocationOfComponent(mNowEditorJComponent, 0, 0));
                             isShaking = false;
                         } catch (InterruptedException e) {

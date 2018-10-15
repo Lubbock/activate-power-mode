@@ -1,6 +1,7 @@
 package com.jiyuanime.particle;
 
 import com.intellij.util.ui.JBUI;
+import com.jiyuanime.colorful.AreaGraphFactory;
 import com.jiyuanime.config.Config;
 
 import java.awt.AlphaComposite;
@@ -23,7 +24,7 @@ import javax.swing.border.Border;
  * Created by KADO on 15/12/15.
  */
 public class ParticlePanel implements Runnable, Border {
-    private static final int MAX_PARTICLE_COUNT = 100;
+    private static final int MAX_PARTICLE_COUNT = 40;
 
     private static ParticlePanel mParticlePanel;
 
@@ -59,18 +60,18 @@ public class ParticlePanel implements Runnable, Border {
     @Override
     public void run() {
         while (isEnable) {
+            boolean isPaint = false;
             if (mParticleAreaGraphics != null) {
-
+                //todo 9410每35s就会重绘一次，这方法有问题绘制过于频繁了
                 mParticleAreaGraphics.setBackground(new Color(0x00FFFFFF, true));
                 mParticleAreaGraphics.clearRect(0, 0, mParticleAreaWidth * 2, mParticleAreaHeight * 2);
 
                 for (String key : mParticleViews.keySet()) {
                     ParticleView particleView = mParticleViews.get(key);
+                    isPaint = (isPaint || particleView.isEnable());
                     if (particleView != null && particleView.isEnable()) {
-                        mParticleAreaGraphics.setColor(particleView.mColor);
-                        mParticleAreaGraphics.fillOval((int) particleView.x, (int) particleView.y, ParticleView.PARTICLE_WIDTH, ParticleView.PARTICLE_WIDTH);
-
-                        update(particleView);
+                        AreaGraphFactory.randomGraph(mParticleAreaGraphics, particleView);
+                       update(particleView);
                     }
                 }
 
@@ -237,7 +238,7 @@ public class ParticlePanel implements Runnable, Border {
     }
 
     public void sparkAtPositionAction(Color color, int fontSize) {
-        if (mCurrentCaretPosition != null) {
+8        if (mCurrentCaretPosition != null) {
             sparkAtPosition(mCurrentCaretPosition, color, fontSize);
             mCurrentCaretPosition = null;
         }

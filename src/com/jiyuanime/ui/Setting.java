@@ -20,6 +20,7 @@ public class Setting implements Configurable {
     private ColorPanel colorChooser;
     private JPanel rootPanel;
     private JCheckBox colorAutoCheckBox;
+    private JTextField shakeTimerTextField;
 
     private Config.State state = Config.getInstance().state;
 
@@ -45,6 +46,7 @@ public class Setting implements Configurable {
 
         try {
             return !Comparing.equal(state.PARTICLE_MAX_COUNT, Integer.parseInt(particleMaxCountTextField.getText())) ||
+                    !Comparing.equal(state.PARTICLE_MAX_COUNT, Integer.parseInt(shakeTimerTextField.getText()))||
                     !Comparing.equal(state.PARTICLE_COLOR, colorAutoCheckBox.isSelected() ? null : colorChooser.getSelectedColor());
         } catch (NumberFormatException $ex) {
             return true;
@@ -57,10 +59,15 @@ public class Setting implements Configurable {
 
         try {
             int particle_max_count = Integer.parseInt(particleMaxCountTextField.getText());
+            int shake_time = Integer.parseInt(shakeTimerTextField.getText());
             if(particle_max_count < 0) {
                 throw new ConfigurationException("The 'particle max count' field must be greater than 0");
             }
+            if(shake_time < 0) {
+                throw new ConfigurationException("The 'shake time max count' field must be greater than 0");
+            }
             state.PARTICLE_MAX_COUNT = particle_max_count;
+            state.SHAKE_TIMER = shake_time;
         } catch (NumberFormatException $ex) {
             throw new ConfigurationException("The 'particle max count' field format error.");
         }
@@ -86,6 +93,7 @@ public class Setting implements Configurable {
 
     private void initSetting() {
         particleMaxCountTextField.setText(String.valueOf(state.PARTICLE_MAX_COUNT));
+        shakeTimerTextField.setText(String.valueOf(state.SHAKE_TIMER));
         if(state.PARTICLE_COLOR == null) {
             colorAutoCheckBox.setSelected(true);
         } else {

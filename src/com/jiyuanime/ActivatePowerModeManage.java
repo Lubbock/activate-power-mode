@@ -2,39 +2,26 @@ package com.jiyuanime;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.FileEditorManagerAdapter;
-import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
-import com.intellij.openapi.fileEditor.FileEditorManagerListener;
+import com.intellij.openapi.fileEditor.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBProgressBar;
 import com.intellij.util.messages.MessageBusConnection;
+import com.jiyuanime.colorful.ColorFactory;
+import com.jiyuanime.colorful.ProgressUI;
 import com.jiyuanime.config.Config;
 import com.jiyuanime.listener.ActivatePowerDocumentListener;
 import com.jiyuanime.particle.ParticlePanel;
 import com.jiyuanime.shake.ShakeManager;
 import com.jiyuanime.utils.IntegerUtil;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.swing.*;
+import javax.swing.plaf.ProgressBarUI;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JViewport;
-import javax.swing.SwingConstants;
 
 /**
  * 效果管理器
@@ -61,7 +48,7 @@ public class ActivatePowerModeManage {
 
     private JLabel mComboLabel, mMaxComboLabel;
     private JPanel mComboPanel;
-    private JBProgressBar mClickTimeStampProgressBar;
+    private JProgressBar mClickTimeStampProgressBar;
 
     public void init(Project project) {
 
@@ -220,42 +207,29 @@ public class ActivatePowerModeManage {
         JLabel comboLabel = new JLabel("0");
         comboLabel.setHorizontalAlignment(SwingConstants.CENTER);
         comboLabel.setBackground(new Color(0x00FFFFFF, true));
-        comboLabel.setForeground(Color.GREEN);
-
-        try {
-            InputStream fontInputStream = getClass().getResourceAsStream("/font/PressStart2P-Regular.ttf");
-            Font font = Font.createFont(Font.TRUETYPE_FONT, fontInputStream);
-            font = font.deriveFont(Font.BOLD, 64f);
-            comboLabel.setFont(font);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-            comboLabel.setFont(new Font("Default", Font.BOLD, 64));
-        }
-
+        comboLabel.setForeground(Color.RED);
+        comboLabel.setFont(new Font("Default", Font.BOLD, 24));
         return comboLabel;
     }
 
     private JLabel initMaxComboLabel() {
-        JLabel comboLabel = new JLabel(String.valueOf("Max " + Config.getInstance().state.MAX_CLICK_COMBO));
+        JLabel comboLabel = new JLabel("Since can't escape, love it for you. ");
         comboLabel.setHorizontalAlignment(SwingConstants.CENTER);
         comboLabel.setBackground(new Color(0x00FFFFFF, true));
-        comboLabel.setForeground(Color.GREEN);
+        comboLabel.setForeground(Color.RED);
 
-        try {
-            InputStream fontInputStream = getClass().getResourceAsStream("/font/PressStart2P-Regular.ttf");
-            Font font = Font.createFont(Font.TRUETYPE_FONT, fontInputStream);
-            font = font.deriveFont(Font.BOLD, 24f);
-            comboLabel.setFont(font);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-            comboLabel.setFont(new Font("Default", Font.BOLD, 24));
-        }
-
+        comboLabel.setFont(new Font("Default", Font.TRUETYPE_FONT, 12));
         return comboLabel;
     }
 
-    private JBProgressBar initClickTimeStampProgressBar() {
-        JBProgressBar clickTimeStampProgressBar = new JBProgressBar();
+    private JProgressBar initClickTimeStampProgressBar() {
+
+        JProgressBar clickTimeStampProgressBar = new JProgressBar(){
+            @Override
+            public void setUI(ProgressBarUI ui) {
+                super.setUI(new ProgressUI(this,ColorFactory.gen()));
+            }
+        };
         clickTimeStampProgressBar.setForeground(Color.GREEN);
         clickTimeStampProgressBar.setVisible(false);
 
@@ -265,13 +239,13 @@ public class ActivatePowerModeManage {
     private void addComboLabel(JComponent contentComponent, int x, int y) {
         if (contentComponent != null && contentComponent.getParent() != null && mComboPanel != null && mMaxComboLabel != null && mComboLabel != null && mClickTimeStampProgressBar != null) {
 
-            mMaxComboLabel.setText(String.valueOf("Max " + Config.getInstance().state.MAX_CLICK_COMBO));
+            mMaxComboLabel.setText("Since can't escape, love it for you. ");
 
             mComboPanel.remove(mMaxComboLabel);
             mComboPanel.remove(mComboLabel);
             mComboPanel.remove(mClickTimeStampProgressBar);
-            mComboPanel.add(mMaxComboLabel, BorderLayout.NORTH);
-            mComboPanel.add(mComboLabel, BorderLayout.CENTER);
+            mComboPanel.add(mMaxComboLabel, BorderLayout.CENTER);
+            mComboPanel.add(mComboLabel, BorderLayout.NORTH);
             mComboPanel.add(mClickTimeStampProgressBar, BorderLayout.SOUTH);
 
             contentComponent.setLayout(new FlowLayout(FlowLayout.LEFT, (int) (x + contentComponent.getParent().getWidth() - mComboPanel.getPreferredSize().getWidth() - 32), y + 32));

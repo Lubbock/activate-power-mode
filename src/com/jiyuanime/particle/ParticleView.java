@@ -8,7 +8,7 @@ import java.awt.color.ColorSpace;
  * <p>
  * Created by KADO on 15/12/15.
  */
-class ParticleView {
+public class ParticleView {
     public static final int PARTICLE_WIDTH = 6;
 
     public Color mColor;

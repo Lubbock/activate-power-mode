@@ -17,7 +17,7 @@ import java.awt.*;
     name = "activate-power-mode",
     storages = {
             @Storage(
-                    id = "activate-power-mode",
+                    value = "activate-power-mode",
                     file = "$APP_CONFIG$/activate-power-mode_setting.xml"
             )
     }
@@ -49,7 +49,7 @@ public class Config implements PersistentStateComponent<Config.State> {
 
         state.IS_SPARK = true;
 
-        state.IS_SHAKE = true;
+        state.IS_SHAKE = false;
 
         state.IS_COMBO = true;
 
@@ -115,6 +115,8 @@ public class Config implements PersistentStateComponent<Config.State> {
          * 粒子颜色,为null则代表auto
          */
         public Color PARTICLE_COLOR = null;
+
+        public int SHAKE_TIMER = 75;
     }
 
 
