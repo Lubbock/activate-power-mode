@@ -238,7 +238,7 @@ public class ParticlePanel implements Runnable, Border {
     }
 
     public void sparkAtPositionAction(Color color, int fontSize) {
-8        if (mCurrentCaretPosition != null) {
+        if (mCurrentCaretPosition != null) {
             sparkAtPosition(mCurrentCaretPosition, color, fontSize);
             mCurrentCaretPosition = null;
         }
