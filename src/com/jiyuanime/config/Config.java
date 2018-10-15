@@ -17,7 +17,6 @@ import java.awt.*;
     name = "activate-power-mode",
     storages = {
             @Storage(
-                    value = "activate-power-mode",
                     file = "$APP_CONFIG$/activate-power-mode_setting.xml"
             )
     }
