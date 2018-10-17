@@ -60,23 +60,10 @@ public class ParticlePanel implements Runnable, Border {
     @Override
     public void run() {
         while (isEnable) {
-            boolean isPaint = false;
             if (mParticleAreaGraphics != null) {
+//                mParticleAreaGraphics.setBackground(new Color(0x00FFFFFF, true));
                 //todo 9410每35s就会重绘一次，这方法有问题绘制过于频繁了
-                mParticleAreaGraphics.setBackground(new Color(0x00FFFFFF, true));
-                mParticleAreaGraphics.clearRect(0, 0, mParticleAreaWidth * 2, mParticleAreaHeight * 2);
-
-                for (String key : mParticleViews.keySet()) {
-                    ParticleView particleView = mParticleViews.get(key);
-                    isPaint = (isPaint || particleView.isEnable());
-                    if (particleView != null && particleView.isEnable()) {
-                        AreaGraphFactory.randomGraph(mParticleAreaGraphics, particleView);
-                       update(particleView);
-                    }
-                }
-
-                if (mNowEditorJComponent != null)
-                    mNowEditorJComponent.repaint();
+                AreaGraphFactory.drawParticleView(mParticleAreaGraphics,mNowEditorJComponent, mParticleViews, mParticleAreaWidth * 2, mParticleAreaHeight * 2);
             }
 
             try {

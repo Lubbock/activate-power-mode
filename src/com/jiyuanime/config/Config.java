@@ -88,7 +88,7 @@ public class Config implements PersistentStateComponent<Config.State> {
         /**
          * 开启效果的界限
          */
-        public int OPEN_FUNCTION_BORDER = 30;
+        public int OPEN_FUNCTION_BORDER = 2;
 
         /**
          * 敲击的时间间隔
